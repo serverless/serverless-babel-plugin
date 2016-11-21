@@ -47,7 +47,7 @@ class ServerlessPlugin {
           '--out-dir=tmpBabelDirectory',
           'tmpBabelDirectory',
           '--ignore=node_modules',
-          `--presets=${this.serverless.custom.babelPresets.join(',')}`,
+          `--presets=${this.serverless.service.custom.babelPresets.join(',')}`,
         ];
         const options = {
           cwd: path.join(servicePath, '.serverless'),
