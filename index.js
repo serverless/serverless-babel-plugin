@@ -52,7 +52,7 @@ class ServerlessPlugin {
         const options = {
           cwd: path.join(servicePath, '.serverless'),
         };
-        const result = spawnSync(path.join(__dirname, 'node_modules', '.bin/babel'), args, options);
+        const result = spawnSync(path.join(__dirname, '..', '.bin/babel'), args, options);
         const stdout = result.stdout.toString();
         const sterr = result.stderr.toString();
         if (stdout) {
@@ -102,12 +102,12 @@ class ServerlessPlugin {
         zip.on('error', err => reject(err));
 
         output.on('close', () => {
-          rimraf(tmpBabelDirectory, {}, (err) => {
-            if (err) {
-              reject(err);
-            }
-            resolve(artifactFilePath);
-          });
+          try {
+            rimraf.sync(tmpBabelDirectory, { disableGlob: true });
+          } catch (err) {
+            reject(err);
+          }
+          resolve(artifactFilePath);
         });
       });
     });

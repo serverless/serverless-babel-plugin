@@ -1,6 +1,6 @@
 {
   "name": "serverless-babel-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A plugin to compile your code with Babel",
   "repository:": "git@github.com:ServerlessInc/serverless-babel-plugin.git",
   "author": "Nikolaus Graf",
