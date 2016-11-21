@@ -34,7 +34,7 @@ class ServerlessPlugin {
       const servicePath = this.serverless.config.servicePath;
 
       // unzip
-      const stream = fs.createReadStream(path.join(servicePath, '.serverless/simple-function-compiled-with-babel.zip'))
+      const stream = fs.createReadStream(path.join(servicePath, `.serverless/${this.serverless.service.service}.zip`))
         .pipe(unzip.Extract({ path: path.join(servicePath, '.serverless/tmpBabelDirectory') }));
 
       stream.on('error', (error) => {
