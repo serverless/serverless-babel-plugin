@@ -41,7 +41,8 @@ class ServerlessPlugin {
         reject(error);
       });
 
-      stream.on('finish', () => {
+      // unzip2 actually emits close when completed. When unzipping a large file, using finish will cause this plugin to run prematurely
+      stream.on('close', () => {
         // compile
         const args = [
           '--out-dir=tmpBabelDirectory',
