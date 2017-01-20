@@ -55,8 +55,9 @@ class ServerlessPlugin {
         };
         console.log('Babel Executable: ' + path.join(__dirname, '..', '.bin/babel'));
         const result = spawnSync(path.join(__dirname, '..', '.bin/babel'), args, options);
-        console.log(result);
-        console.log(JSON.stringify(result));
+        if (result.error) {
+          reject(result.error);
+        }
         const stdout = result && result.stdout.toString();
         const sterr = result && result.stderr.toString();
         if (stdout) {
