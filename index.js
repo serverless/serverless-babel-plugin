@@ -87,8 +87,6 @@ class ServerlessPlugin {
         const babelcli = path.join(__dirname, 'node_modules', '.bin/babel');
         const result = spawnSync(babelcli, args);
 
-        console.log(babelcli);
-
         if (result.status !== 0) {
           const sterr = result.stderr ? result.stderr.toString() : null;
           reject(sterr);
