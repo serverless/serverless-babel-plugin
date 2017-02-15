@@ -9,6 +9,9 @@ const BbPromise = require('bluebird');
 const glob = require('glob-all');
 const rimraf = require('rimraf');
 const _ = require('lodash');
+const isWin = /^win/.test(process.platform);
+const isLinux = /^linux/.test(process.platform);
+const isMac = /^darwin/.test(process.platform);
 
 class ServerlessPlugin {
   constructor(serverless, options) {
@@ -54,18 +57,20 @@ class ServerlessPlugin {
         const options = {
           cwd: path.join(servicePath, '.serverless'),
         };
-        console.log('Babel Executable: ' + path.join(__dirname, '..', '.bin/babel'));
-        const result = spawnSync(path.join(__dirname, '..', '.bin/babel'), args, options);
+        const execPath = path.join(__dirname, '..', '.bin/babel');
+        console.log('Babel Executable: ' + execPath);
+        if (isWin) execPath += '.cmd';
+        const result = spawnSync(execPath, args, options);
         if (result.error) {
-          reject(result.error);
+          return reject(result.error);
         }
-        const stdout = result && result.stdout.toString();
-        const sterr = result && result.stderr.toString();
+        const stdout = result && result.stdout && result.stdout.toString();
+        const sterr = result && && result.stderr && result.stderr.toString();
         if (stdout) {
           this.serverless.cli.log(`Babel compilation:\n${stdout}`);
         }
         if (sterr) {
-          reject(sterr);
+          return reject(sterr);
         }
 
         // zip
