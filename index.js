@@ -65,7 +65,7 @@ class ServerlessPlugin {
           return reject(result.error);
         }
         const stdout = result && result.stdout && result.stdout.toString();
-        const sterr = result && && result.stderr && result.stderr.toString();
+        const sterr = result && result.stderr && result.stderr.toString();
         if (stdout) {
           this.serverless.cli.log(`Babel compilation:\n${stdout}`);
         }
