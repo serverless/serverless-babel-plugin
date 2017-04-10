@@ -17,6 +17,7 @@ class ServerlessPlugin {
 
     this.hooks = {
       'after:deploy:createDeploymentArtifacts': this.transform.bind(this),
+      'after:deploy:function:packageFunction': this.transform.bind(this),
     };
   }
 
@@ -33,8 +34,15 @@ class ServerlessPlugin {
 
       const servicePath = this.serverless.config.servicePath;
 
+      let bundleName = this.serverless.service.service;
+
+      // determine if we are deploying a single function or the entire service
+      if (this.options && this.options.f !== undefined) {
+        bundleName = `${bundleName}-${this.options.stage}-${this.options.f}`;
+      }
+
       // unzip
-      const stream = fs.createReadStream(path.join(servicePath, `.serverless/${this.serverless.service.service}.zip`))
+      const stream = fs.createReadStream(path.join(servicePath, `.serverless/${bundleName}.zip`))
         .pipe(unzip.Extract({ path: path.join(servicePath, '.serverless/tmpBabelDirectory') }));
 
       stream.on('error', (error) => {
@@ -68,7 +76,7 @@ class ServerlessPlugin {
         const tmpBabelDirectory = '.serverless/tmpBabelDirectory';
         const zip = archiver.create('zip');
 
-        const artifactFilePath = `.serverless/${this.serverless.service.service}.zip`;
+        const artifactFilePath = `.serverless/${bundleName}.zip`;
         this.serverless.utils.writeFileDir(artifactFilePath);
 
         const output = fs.createWriteStream(artifactFilePath);
