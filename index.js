@@ -61,8 +61,8 @@ class ServerlessPlugin {
           cwd: path.join(servicePath, '.serverless'),
         };
         const result = spawnSync(path.join(__dirname, '..', '.bin/babel'), args, options);
-        const stdout = result.stdout.toString();
-        const sterr = result.stderr.toString();
+        const stdout = result.stdout ? result.stdout.toString() : null;
+        const sterr = result.stderr ? result.stderr.toString() : null;
         if (stdout) {
           this.serverless.cli.log(`Babel compilation:\n${stdout}`);
         }
