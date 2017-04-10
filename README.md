@@ -27,4 +27,4 @@ Simply run `serverless deploy` and it will compile every JavaScript file in your
 
 # More info
 
-Find a complete example [here](https://github.com/serverless/examples/tree/master/function-compiled-with-babel)
+Find a complete example [here](https://github.com/serverless/examples/tree/master/aws-node-function-compiled-with-babel)
