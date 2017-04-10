@@ -2,6 +2,8 @@
 
 A Serverless plugin to compile your JavaScript code with Babel before deployment.
 
+IMPORTANT: If you are interested to maintain or take ownership of this project please reach out to @nikgraf
+
 # Setup
 
 You need to install the plugin as well as a preset. For example the `babel-preset-latest`:
