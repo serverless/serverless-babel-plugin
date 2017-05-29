@@ -55,17 +55,18 @@ class ServerlessPlugin {
       // unzip2 actually emits close when completed. When unzipping a large file, using finish will cause this plugin to run prematurely
       stream.on('close', () => {
         // compile
+        const plugins = this.serverless.service.custom.babelPlugins || [];
         const args = [
           '--out-dir=tmpBabelDirectory',
           'tmpBabelDirectory',
           '--ignore=node_modules',
           `--presets=${this.serverless.service.custom.babelPresets.join(',')}`,
-          `--plugins=${this.serverless.service.custom.babelPlugins.join(',')}`,
+          `--plugins=${plugins.join(',')}`,
         ];
         const options = {
           cwd: path.join(servicePath, '.serverless'),
         };
-        const execPath = path.join(__dirname, '..', '.bin/babel');
+        let execPath = path.join(__dirname, '..', '.bin/babel');
         console.log('Babel Executable: ' + execPath);
         if (isWin) execPath += '.cmd';
         const result = spawnSync(execPath, args, options);
